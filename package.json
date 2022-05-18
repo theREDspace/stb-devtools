@@ -10,11 +10,13 @@
     "node": ">= 12"
   },
   "scripts": {
-    "start": "node server/index.mjs"
+    "start": "node server/index.mjs",
+    "serve-client": "http-server client/"
   },
   "author": "REDspace",
   "license": "MIT",
   "devDependencies": {
+    "http-server": "^14.1.0",
     "uuid": "^8.3.2",
     "ws": "^8.6.0"
   }
