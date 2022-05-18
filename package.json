@@ -15,9 +15,11 @@
   },
   "author": "REDspace",
   "license": "MIT",
-  "devDependencies": {
-    "http-server": "^14.1.0",
+  "dependencies": {
     "uuid": "^8.3.2",
     "ws": "^8.6.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.0"
   }
 }
