@@ -1,13 +1,19 @@
 {
   "name": "stb-devtools",
   "version": "0.0.1",
-  "description": "STB Devtools is a suite of tools built on top of network communication to a backend from a JS environment",
-  "main": "index.js",
+  "description": "STB Devtools is a suite of tools built on top of websockets to a backend from a JS environment",
+  "browser": "client/index.js",
+  "bin": {
+    "stb-devtools": "./server/index.mjs"
+  },
+  "engines": {
+    "node": ">= 12"
+  },
   "scripts": {
     "start": "node server/index.mjs"
   },
-  "author": "",
-  "license": "UNLICENSED",
+  "author": "REDspace",
+  "license": "MIT",
   "devDependencies": {
     "uuid": "^8.3.2",
     "ws": "^8.6.0"
