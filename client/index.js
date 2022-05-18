@@ -39,12 +39,13 @@ function restoreConsole() {
 }
 
 var stbSocket;
-function createSocket(target) {
+function createSocket(target, cb) {
   stbSocket = new WebSocket(target);
 
   // Connection opened
   stbSocket.addEventListener('open', function (event) {
     console.log("Connection open")
+    cb()
   });
 
   // Listen for messages
