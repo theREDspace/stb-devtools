@@ -33,7 +33,8 @@ wss.on('connection', (ws) => {
     data = JSON.parse(data);
     switch (data.command) {
       case "remote-logger":
-        console.log("received: %s", data.data);
+        console.log("log %s", clients.get(ws).id);
+        console.dir(data.data)
         break;
       case "remote-control":
         handleRemoteControl(ws, data.data)
@@ -42,6 +43,7 @@ wss.on('connection', (ws) => {
   }); 
   
   ws.on("close", () => {
+    console.log('client %s quit', clients.get(ws).id)
     clients.delete(ws);
   });
 });
@@ -58,4 +60,4 @@ function handleRemoteControl(ws, data) {
   });
 }
 
-console.log("wss up");
+console.log("server up");

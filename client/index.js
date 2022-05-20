@@ -1,3 +1,37 @@
+function stringifyReplacer(name, val) {
+  if (val instanceof ErrorEvent) {
+    return {
+      message: val.message,
+      lineno: val.lineno,
+      colno: val.colno,
+      filename: val.filename,
+      stack: val.error.stack,
+    }
+  }
+
+  return val
+}
+
+/**
+ * @param err {ErrorEvent}
+ */
+function handleError(err) {
+  stbSocket.send(JSON.stringify({
+    command: 'remote-logger',
+    data: err,
+  }, stringifyReplacer, 2))
+}
+
+/**
+ * @param err {PromiseRejectionEvent}
+ */
+function handleRejection(err) {
+  stbSocket.send(JSON.stringify({
+    command: 'remote-logger',
+    data: err,
+  }, stringifyReplacer, 2))
+}
+
 // Inject and take over the console object to turn it
 // into forwarding calls to the backend.
 function injectConsole() {
@@ -14,12 +48,16 @@ function injectConsole() {
     method = methods[i];
     window.consoleBackup[method] = console[method]
     console[method] = function() {
-      stbSocket.send(JSON.stringify({
+      var str = JSON.stringify({
         command: 'remote-logger',
         data: [].slice.call(arguments),
-      }))
+      }, stringifyReplacer, 2);
+      stbSocket.send(str);
     }
   }
+
+  window.addEventListener('error', handleError)
+  window.addEventListener('unhandledrejection', handleRejection)
 }
 
 function restoreConsole() {
@@ -36,6 +74,8 @@ function restoreConsole() {
     console[method] = window.consoleBackup[method]
   }
   window.consoleBackup = void 0;
+  window.removeEventListener('error', handleError)
+  window.removeEventListener('unhandledrejection', handleRejection)
 }
 
 var stbSocket;
@@ -44,14 +84,12 @@ function createSocket(target, cb) {
 
   // Connection opened
   stbSocket.addEventListener('open', function (event) {
-    console.log("Connection open")
     cb()
   });
 
   // Listen for messages
   stbSocket.addEventListener('message', function (event) {
     var data = JSON.parse(event.data);
-    console.log('Message from server ', data);
     switch(data.command) {
       case "remote-control":
         window.dispatchEvent(new KeyboardEvent(data.data.type, {
