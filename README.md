@@ -21,4 +21,3 @@ API:
 
 API:
 - `remoteControlOn()` Starts broadcasting keyboard events from this browser to all other connected clients, who will dispatch the events as synthetic keyboard events locally automatically.
-- `remoteControlOff()` Stops broadcasting keyboard events.
