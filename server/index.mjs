@@ -35,7 +35,7 @@ wss.on('connection', (ws) => {
       case "evaluate":
         wss.clients.forEach(function each(client) {
           if (client !== ws && client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({command: 'evaluate', data: data}));
+            client.send(JSON.stringify({command: 'evaluate', data: data.data}));
           }
         });
         break;
