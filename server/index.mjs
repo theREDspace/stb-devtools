@@ -32,8 +32,21 @@ wss.on('connection', (ws) => {
   ws.on('message', (data) => {
     data = JSON.parse(data);
     switch (data.command) {
+      case "evaluate":
+        wss.clients.forEach(function each(client) {
+          if (client !== ws && client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({command: 'evaluate', data: data}));
+          }
+        });
+        break;
       case "remote-logger":
         console.log("log %s", clients.get(ws).id);
+        console.dir(data.data, {
+          depth: 5,
+        })
+        break;
+      case "evaluate-response":
+        console.log("evaluate-response %s", clients.get(ws).id);
         console.dir(data.data)
         break;
       case "remote-control":

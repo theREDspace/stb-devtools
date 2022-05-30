@@ -91,6 +91,13 @@ function createSocket(target, cb) {
   stbSocket.addEventListener('message', function (event) {
     var data = JSON.parse(event.data);
     switch(data.command) {
+      case "evaluate":
+        var f = new Function(data.data)
+        var evalResp = f();
+        stbSocket.send(JSON.stringify({
+          command: 'evaluate-response',
+          data: evalResp,
+        }, stringifyReplacer, 2));
       case "remote-control":
         window.dispatchEvent(new KeyboardEvent(data.data.type, {
           altKey: data.data.altKey,
