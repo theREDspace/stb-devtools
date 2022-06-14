@@ -2,6 +2,13 @@
 
 Tools written in plain Javascript to setup some tools to help work on devices without Webdriver support.
 
+Due to usage of WeakSet for circular JSON detection the browser support is defined fully here: https://caniuse.com/?search=Weakset
+
+Native Browser Support:
+- Chrome 36
+- Firefox 34
+- Safari 9
+
 ## Setup
 
 Put a `<script>` tag into your application's HTML that loads `client/index.js`. This will put the following APIs into the global scope.

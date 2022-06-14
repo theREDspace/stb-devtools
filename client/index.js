@@ -1,15 +1,25 @@
-function stringifyReplacer(name, val) {
-  if (val instanceof ErrorEvent) {
-    return {
-      message: val.message,
-      lineno: val.lineno,
-      colno: val.colno,
-      filename: val.filename,
-      stack: val.error.stack,
+function getStringifyReplacer() {
+  var seen = new WeakSet();
+  return function replacer(key, val) {
+    if (typeof val === "object" && value !== null) {
+      if (seen.has(val)) {
+        return;
+      }
+      seen.add(val);
     }
-  }
 
-  return val
+    if (val instanceof ErrorEvent) {
+      return {
+        message: val.message,
+        lineno: val.lineno,
+        colno: val.colno,
+        filename: val.filename,
+        stack: val.error.stack,
+      }
+    }
+  
+    return val
+  }
 }
 
 /**
@@ -19,7 +29,7 @@ function handleError(err) {
   stbSocket.send(JSON.stringify({
     command: 'remote-logger',
     data: err,
-  }, stringifyReplacer, 2))
+  }, getStringifyReplacer(), 2))
 }
 
 /**
@@ -29,7 +39,7 @@ function handleRejection(err) {
   stbSocket.send(JSON.stringify({
     command: 'remote-logger',
     data: err,
-  }, stringifyReplacer, 2))
+  }, getStringifyReplacer(), 2))
 }
 
 // Inject and take over the console object to turn it
@@ -51,7 +61,7 @@ function injectConsole() {
       var str = JSON.stringify({
         command: 'remote-logger',
         data: [].slice.call(arguments),
-      }, stringifyReplacer, 2);
+      }, getStringifyReplacer(), 2);
       stbSocket.send(str);
     }
   }
@@ -97,7 +107,7 @@ function createSocket(target, cb) {
         stbSocket.send(JSON.stringify({
           command: 'evaluate-response',
           data: evalResp,
-        }, stringifyReplacer, 2));
+        }, getStringifyReplacer(), 2));
       case "remote-control":
         window.dispatchEvent(new KeyboardEvent(data.data.type, {
           altKey: data.data.altKey,
