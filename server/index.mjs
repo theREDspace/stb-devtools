@@ -53,11 +53,11 @@ wss.on('connection', (ws) => {
       case "remote-control":
         handleRemoteControl(ws, data.data)
         break;
-      case "spectre-capture":
+      case "temp-file":
         temporaryWrite(JSON.stringify(data.data), {
           extension: 'json'
         }).then((path) => {
-          console.log("spectre-capture at: %s", path);
+          console.log("temp-file at: %s", path);
         });
         break;
     }

@@ -1,6 +1,6 @@
 {
   "name": "stb-devtools",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "STB Devtools is a suite of tools built on top of websockets to a backend from a JS environment",
   "browser": "client/index.js",
   "bin": {

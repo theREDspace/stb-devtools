@@ -28,3 +28,23 @@ API:
 
 API:
 - `remoteControlOn()` Starts broadcasting keyboard events from this browser to all other connected clients, who will dispatch the events as synthetic keyboard events locally automatically.
+
+## Temporary File
+
+#### Client usage
+
+From the client send a command like the below
+
+```
+stbSocket.send(JSON.stringify({command: 'temp-file', data: data }));
+```
+
+#### Socket Payload:
+```
+{
+  command: 'spectre-capture',
+  data: 'string'
+}
+```
+
+Will be saved to a temporary file using the module `tempy`.
