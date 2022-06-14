@@ -2,6 +2,7 @@
 
 import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
+import { temporaryWrite } from 'tempy';
 
 const wss = new WebSocketServer({ port: 3031 });
 
@@ -51,6 +52,13 @@ wss.on('connection', (ws) => {
         break;
       case "remote-control":
         handleRemoteControl(ws, data.data)
+        break;
+      case "spectre-capture":
+        temporaryWrite(JSON.stringify(data.data), {
+          extension: 'json'
+        }).then((path) => {
+          console.log("spectre-capture at: %s", path);
+        });
         break;
     }
   }); 
