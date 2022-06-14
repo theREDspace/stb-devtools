@@ -1,7 +1,7 @@
 function getStringifyReplacer() {
   var seen = new WeakSet();
   return function replacer(key, val) {
-    if (typeof val === "object" && value !== null) {
+    if (typeof val === "object" && val !== null) {
       if (seen.has(val)) {
         return;
       }
