@@ -42,8 +42,8 @@ stbSocket.send(JSON.stringify({command: 'temp-file', data: data }));
 #### Socket Payload:
 ```
 {
-  command: 'spectre-capture',
-  data: 'string'
+  command: 'temp-file',
+  data: 'stringetc'
 }
 ```
 
