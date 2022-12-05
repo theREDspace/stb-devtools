@@ -54,7 +54,8 @@ function injectConsole() {
     'debug',
   ];
   window.consoleBackup = {};
-  for (let i = 0; i < methods.length; i++) {
+  var i = 0;
+  for (; i < methods.length; i++) {
     method = methods[i];
     window.consoleBackup[method] = console[method]
     console[method] = function() {
@@ -79,7 +80,8 @@ function restoreConsole() {
     'error', 
     'debug',
   ];
-  for (let i = 0; i < methods.length; i++) {
+  var i = 0;
+  for (; i < methods.length; i++) {
     method = methods[i];
     console[method] = window.consoleBackup[method]
   }
